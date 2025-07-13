@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Service\UserService;
 use App\Models\User;
@@ -23,12 +24,14 @@ class UserController extends Controller
      */
     public function store(RegisterUserRequest $request)
     {
-        $user = $this->service->newUser($request->validated());
+        // $user = $this->service->newUser($request->validated());
+        // $token = $user->createToken("auth_token")->plainTextToken;
 
-        return response()->json([
-            "message" => "deu certo",
-            "data" => $user
-        ], 201);
+        // return response()->json([
+        //     "message" => "deu certo",
+        //     "token" => $token,
+        //     "data" => $user
+        // ], 201);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Service;
 
 use App\Http\Repository\UserRepository;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserService {
     public function __construct(protected UserRepository $repository) {}
@@ -26,5 +27,17 @@ class UserService {
 
     public function update(array $data) {
         return $this->repository->updateOne($data);
+    }
+
+    public function login(array $credentials) {
+        $user = $this->repository->getByEmail($credentials["email"]);
+
+        if (!$user || !Hash::check($credentials["password"], $user->password)) {
+            throw ValidationException::withMessages([
+                "email" => "As credenciais estão incorretas"
+            ]);
+        }
+        
+        return $user->createToken("auth_token")->plainTextToken;
     }
 }

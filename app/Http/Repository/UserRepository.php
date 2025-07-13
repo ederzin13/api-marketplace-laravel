@@ -17,6 +17,10 @@ class UserRepository {
         return User::findOrFail($id);
     }
 
+    public function getByEmail($email) {
+        return User::where("email", $email)->first();
+    }
+
     public function updateOne(array $data) {
         return User::update($data);
     }
