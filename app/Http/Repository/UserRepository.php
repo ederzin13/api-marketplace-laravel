@@ -24,4 +24,8 @@ class UserRepository {
     public function updateOne(array $data) {
         return User::update($data);
     }
+
+    public function deleteOne($id) {
+        return User::destroy($id);
+    }
 }

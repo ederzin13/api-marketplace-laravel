@@ -45,4 +45,8 @@ class UserService {
         
         return $user->createToken("auth_token")->plainTextToken;
     }
+
+    public function deleteOne($id) {
+        return $this->repository->deleteOne($id);
+    }
 }
