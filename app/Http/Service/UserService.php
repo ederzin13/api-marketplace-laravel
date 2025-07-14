@@ -17,6 +17,7 @@ class UserService {
         return $this->repository->newUser([
             "name" => $data["name"],
             "email" => $data["email"],
+            "role" => $data["role"],
             "password" => Hash::make($data["password"])
         ]);
     }
@@ -33,9 +34,13 @@ class UserService {
         $user = $this->repository->getByEmail($credentials["email"]);
 
         if (!$user || !Hash::check($credentials["password"], $user->password)) {
+            //dd($credentials);
+
             throw ValidationException::withMessages([
                 "email" => "As credenciais estão incorretas"
             ]);
+
+            //dd($error);
         }
         
         return $user->createToken("auth_token")->plainTextToken;
