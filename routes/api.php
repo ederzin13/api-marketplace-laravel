@@ -25,3 +25,5 @@ Route::post("/register", [AuthController::class, "register"]);
 
 //logar
 Route::post("/login", [AuthController::class, "login"]);
+//deslogar
+Route::post("/logout", [AuthController::class, "logout"]);
