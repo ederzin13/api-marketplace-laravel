@@ -12,14 +12,14 @@ use Illuminate\Validation\ValidationException;
 class AuthService {
     public function __construct(protected UserRepository $repository) {}
 
-    public function newUser(array $data) {
-        return $this->repository->newUser([
-            "name" => $data["name"],
-            "email" => $data["email"],
-            "role" => $data["role"],
-            "password" => Hash::make($data["password"])
-        ]);
-    }
+    // public function newUser(array $data) {
+    //     return $this->repository->newUser([
+    //         "name" => $data["name"],
+    //         "email" => $data["email"],
+    //         "role" => $data["role"],
+    //         "password" => Hash::make($data["password"])
+    //     ]);
+    // }
 
     public function authenticate(LoginRequest $request) {
         $credentials = $request->validated();
@@ -27,7 +27,6 @@ class AuthService {
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // return redirect()->intended("/");
             return [
                 "message" => "autenticado"
             ];
@@ -38,13 +37,11 @@ class AuthService {
         }
     }
 
-    public function login(array $credentials) { //talvez usar uma request aqui
+    public function login(array $credentials) { 
         $user = $this->repository->getByEmail($credentials["email"]);
 
-        //há problemas AQUI!   --simm
-
-        if (!$user || !Hash::check($credentials["password"], $user->password)) {
-            return $error = ValidationException::withMessages([
+        if (!$user || !Hash::check($credentials["password"], $user->password->plainText)) {
+            return ValidationException::withMessages([
                 "email" => "As credenciais estão incorretas"
             ])->status(422);
         }
