@@ -12,15 +12,6 @@ use Illuminate\Validation\ValidationException;
 class AuthService {
     public function __construct(protected UserRepository $repository) {}
 
-    // public function newUser(array $data) {
-    //     return $this->repository->newUser([
-    //         "name" => $data["name"],
-    //         "email" => $data["email"],
-    //         "role" => $data["role"],
-    //         "password" => Hash::make($data["password"])
-    //     ]);
-    // }
-
     public function authenticate(LoginRequest $request) {
         $credentials = $request->validated();
 
