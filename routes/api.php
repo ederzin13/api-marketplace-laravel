@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CheckIfIsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,9 +26,9 @@ Route::middleware(["auth:sanctum"])->group(function () {
     
     //deslogar
     Route::post("/logout", [AuthController::class, "logout"]);
+    //crud categorias
+    Route::apiResource("/categories", CategoryController::class)->middleware(CheckIfIsAdmin::class);
 });
 
-//crud categorias
-Route::apiResource("/categories", CategoryController::class);
 
 Route::apiResource("/discounts", DiscountController::class);
