@@ -24,14 +24,14 @@ class UserController extends Controller
      */
     public function store(RegisterUserRequest $request)
     {
-        // $user = $this->service->newUser($request->validated());
-        // $token = $user->createToken("auth_token")->plainTextToken;
+        $user = $this->service->newUser($request->validated());
+        $token = $user->createToken("auth_token")->plainTextToken;
 
-        // return response()->json([
-        //     "message" => "deu certo",
-        //     "token" => $token,
-        //     "data" => $user
-        // ], 201);
+        return response()->json([
+            "message" => "deu certo",
+            "token" => $token,
+            "data" => $user
+        ], 201);
     }
 
     /**
