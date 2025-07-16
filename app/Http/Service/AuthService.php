@@ -40,7 +40,7 @@ class AuthService {
     public function login(array $credentials) { 
         $user = $this->repository->getByEmail($credentials["email"]);
 
-        if (!$user || !Hash::check($credentials["password"], $user->password->plainText)) {
+        if (!$user || !Hash::check($credentials["password"], $user->password)) {
             return ValidationException::withMessages([
                 "email" => "As credenciais estão incorretas"
             ])->status(422);
@@ -52,10 +52,6 @@ class AuthService {
     }
 
     public function logout(Request $request) {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
+        $request->user()->currentAccessToken()->delete();
     }
 }

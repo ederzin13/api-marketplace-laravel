@@ -21,7 +21,7 @@ class CheckIfIsAdmin
         }
 
         return response()->json([
-            "teste" => "teste"
+            "negado" => "Usuário não é admin"
         ]);
     }
 }
