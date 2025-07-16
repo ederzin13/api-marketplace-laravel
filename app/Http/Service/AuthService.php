@@ -38,16 +38,18 @@ class AuthService {
         }
     }
 
-    public function login(array $credentials) {
+    public function login(array $credentials) { //talvez usar uma request aqui
         $user = $this->repository->getByEmail($credentials["email"]);
 
-        //há problemas AQUI!
+        //há problemas AQUI!   --simm
 
         if (!$user || !Hash::check($credentials["password"], $user->password)) {
-            throw ValidationException::withMessages([
+            return $error = ValidationException::withMessages([
                 "email" => "As credenciais estão incorretas"
-            ]);
+            ])->status(422);
         }
+
+        $user->tokens()->delete();
         
         return $user->createToken("auth_token")->plainTextToken;
     }
