@@ -18,10 +18,7 @@ class CategoryRepository {
     }
 
     public function updateCategory(array $data, $id) {
-        $toUpdate = $this->getOne($id);
-        $toUpdate->update($data);
-
-        return $toUpdate;
+        return Category::where($id)->update($data);
     }
 
     public function deleteCategory($id) {
