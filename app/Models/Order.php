@@ -22,4 +22,8 @@ class Order extends Model
     public function addresses() {
         return $this->belongsTo(Address::class);
     }
+
+    public function coupons() {
+        return $this->hasOne(Coupon::class);
+    }
 }

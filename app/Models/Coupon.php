@@ -13,5 +13,8 @@ class Coupon extends Model
         "discountPercentage"
     ];
 
-    //RELAÇÃO CUPOM E PEDIDO
+    // RELAÇÃO CUPOM E PEDIDO??
+    public function orders() {
+        $this->belongsTo(Order::class);
+    }
 }
