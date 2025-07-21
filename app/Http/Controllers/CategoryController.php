@@ -50,7 +50,7 @@ class CategoryController extends Controller
 
         return response()->json([
             "original" => $toUpdate,
-            "updated" => $validatedData
+            "updated" => $request->all()
         ]);
     }
 

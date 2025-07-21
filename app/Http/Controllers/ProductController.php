@@ -48,6 +48,7 @@ class ProductController extends Controller
     {
         $validatedData = $this->service->updateProduct($request->validated(), $id);
 
+        //fazer um retorno mais bonito
         return response()->json([
             "message" => "updated",
             "updated_product" => $validatedData

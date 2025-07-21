@@ -39,14 +39,22 @@ Route::middleware(["auth:sanctum"])->group(function () {
 
     //crud categorias
     // Route::apiResource("/categories", CategoryController::class)->middleware(CheckIfIsAdmin::class);
-
+    
+    Route::middleware(CheckIfIsAdmin::class)->group(function () {
+        Route::post("/categories", [CategoryController::class, "store"]);//->middleware(CheckIfIsAdmin::class);
+        Route::put("/categories/{id}", [CategoryController::class, "update"]);
+        Route::delete("/categories/{id}", [CategoryController::class, "destroy"]);
+    });
 
     //crud produtos
     // Route::apiResource("/products", ProductController::class)->middleware(CheckIfIsModerator::class);
-    Route::post("/products", [ProductController::class, "store"]);
-    Route::put("/products/{id}", [ProductController::class, "update"])->middleware(CheckIfIsModerator::class);
-    Route::put("/products/{id}/stock", [ProductController::class, "updateStock"])->middleware(CheckIfIsModerator::class);
-    Route::delete("/products/{id}", [ProductController::class, "destroy"])->middleware(CheckIfIsModerator::class);
+
+    Route::middleware(CheckIfIsModerator::class)->group(function () {
+        Route::post("/products", [ProductController::class, "store"]);
+        Route::put("/products/{id}", [ProductController::class, "update"])->middleware(CheckIfIsModerator::class);
+        Route::put("/products/{id}/stock", [ProductController::class, "updateStock"])->middleware(CheckIfIsModerator::class);
+        Route::delete("/products/{id}", [ProductController::class, "destroy"])->middleware(CheckIfIsModerator::class);
+    });
     //falta a rota de atualizar imagem >-<, obter produtos por categoria e obter produtos de usuário vamos VER
 });
 

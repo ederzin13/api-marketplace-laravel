@@ -18,7 +18,7 @@ class CategoryRepository {
     }
 
     public function updateCategory(array $data, $id) {
-        return Category::where($id)->update($data);
+        return Category::where("id", "=", $id)->update($data);
     }
 
     public function deleteCategory($id) {
