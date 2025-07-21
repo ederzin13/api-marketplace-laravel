@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\UpdateProductStockRequest;
 use App\Http\Service\ProductService;
 use App\Models\Product;
 
@@ -53,11 +54,22 @@ class ProductController extends Controller
         ]);
     }
 
+    public function updateStock(UpdateProductStockRequest $request, $id) {
+        $validatedData = $this->service->updateProduct($request->validated(), $id);
+
+        return response()->json([
+            "message" => "updated stock",
+            "new_value" => $request->stock
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
+        $this->service->deleteProduct($id);
+
         return response()->json([
             "message" => "deletado",
             "deleted" => $id

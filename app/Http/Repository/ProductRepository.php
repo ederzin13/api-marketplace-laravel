@@ -18,7 +18,7 @@ class ProductRepository {
     }
 
     public function updateProduct(array $data, $id) {
-        return Product::where($id)->update($data);
+        return Product::where("id", "=", $id)->update($data);
     }
 
     public function deleteProduct($id) {
