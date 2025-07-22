@@ -10,6 +10,7 @@ class Discount extends Model
         "description",
         "startDate",
         "endDate",
+        "discountPercentage"
     ];
 
     public function products() {

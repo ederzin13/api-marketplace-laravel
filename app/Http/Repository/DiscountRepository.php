@@ -18,7 +18,7 @@ class DiscountRepository {
     }
 
     public function updateDiscount(array $data, $id) {
-        return Discount::where($id)->update($data);
+        return Discount::where("id", "=", $id)->update($data);
     }
 
     public function deleteDiscount($id) {

@@ -20,10 +20,10 @@ class DiscountService {
     }
 
     public function updateDiscount(array $data, $id) {
-        return $this->updateDiscount($data, $id);
+        return $this->repository->updateDiscount($data, $id);
     }
 
     public function deleteDiscount($id) {
-        return $this->deleteDiscount($id);
+        return $this->repository->deleteDiscount($id);
     } 
 }

@@ -30,17 +30,18 @@ Route::get("/categories", [CategoryController::class, "index"]);
 Route::get("/categories/{id}", [CategoryController::class, "show"]);
 
 Route::middleware(["auth:sanctum"])->group(function () {
-    //TODO -> FAZER ROTAS DE USUÁRIO -> arrumar a verificação de email no FUTURO
+    //arrumar a verificação de email no FUTURO
     Route::apiResource("/users", UserController::class);
-    Route::get("/users/me", [UserController::class, "show"]);
-
+    
     Route::apiResource("/addresses", AddressController::class);
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     
     //deslogar
     Route::post("/logout", [AuthController::class, "logout"]);
-
+    
     Route::middleware(CheckIfIsAdmin::class)->group(function () {
+        //Route::post("/users/create-moderator", [UserController::class, "createModerator"]);
+        
         //crud categorias
         Route::post("/categories", [CategoryController::class, "store"]);
         Route::put("/categories/{id}", [CategoryController::class, "update"]);
@@ -52,7 +53,10 @@ Route::middleware(["auth:sanctum"])->group(function () {
         Route::post("/coupons", [CouponController::class, "store"]);
         Route::put("/coupons/{id}", [CouponController::class, "update"]);
         Route::delete("/coupons/{id}", [CouponController::class, "destroy"]);
-    });
+
+        //crud descontos
+        Route::apiResource("/discounts", DiscountController::class);
+    }); 
 
     Route::middleware(CheckIfIsModerator::class)->group(function () {
         //crud produtos
@@ -64,5 +68,3 @@ Route::middleware(["auth:sanctum"])->group(function () {
     });
 });
 
-
-Route::apiResource("/discounts", DiscountController::class);
