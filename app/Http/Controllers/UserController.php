@@ -51,10 +51,12 @@ class UserController extends Controller
         $toUpdate = $this->show($id);
 
         $validatedData = $this->service->update($request->validated(), $id);
+        //jeito alternativo de mostrar o registro atualizado vamos VER se deixo assim
+        $updated = $this->show($id);
 
         return response()->json([
             "original" => $toUpdate,
-            "updated" => $request->all()
+            "updated" => $updated
         ]);
     }
 
