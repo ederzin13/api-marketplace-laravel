@@ -25,6 +25,7 @@ class UserController extends Controller
     public function store(RegisterUserRequest $request)
     {
         $user = $this->service->newUser($request->validated());
+
         $token = $user->createToken("auth_token")->plainTextToken;
 
         return response()->json([

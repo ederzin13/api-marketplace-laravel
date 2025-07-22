@@ -30,6 +30,7 @@ Route::get("/categories", [CategoryController::class, "index"]);
 Route::get("/categories/{id}", [CategoryController::class, "show"]);
 
 Route::middleware(["auth:sanctum"])->group(function () {
+    //TODO -> FAZER ROTAS DE USUÁRIO -> arrumar a verificação de email no FUTURO
     Route::apiResource("/users", UserController::class);
     
     Route::apiResource("/addresses", AddressController::class);
@@ -40,7 +41,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
 
     Route::middleware(CheckIfIsAdmin::class)->group(function () {
         //crud categorias
-        Route::post("/categories", [CategoryController::class, "store"]);//->middleware(CheckIfIsAdmin::class);
+        Route::post("/categories", [CategoryController::class, "store"]);
         Route::put("/categories/{id}", [CategoryController::class, "update"]);
         Route::delete("/categories/{id}", [CategoryController::class, "destroy"]);
 

@@ -12,11 +12,13 @@ class UserService {
         return $this->repository->getAll();
     }
 
+    //REGISTRO DE USUÁRIOS
+    //não sei se é o correto deixar definir o role logo de cara
     public function newUser(array $data) {
         return $this->repository->newUser([
             "name" => $data["name"],
             "email" => $data["email"],
-            "role" => $data["role"],
+            "role" => $data["role"] ?? "client",
             "password" => Hash::make($data["password"])
         ]);
     }
