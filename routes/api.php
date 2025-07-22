@@ -32,7 +32,8 @@ Route::get("/categories/{id}", [CategoryController::class, "show"]);
 Route::middleware(["auth:sanctum"])->group(function () {
     //TODO -> FAZER ROTAS DE USUÁRIO -> arrumar a verificação de email no FUTURO
     Route::apiResource("/users", UserController::class);
-    
+    Route::get("/users/me", [UserController::class, "show"]);
+
     Route::apiResource("/addresses", AddressController::class);
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     

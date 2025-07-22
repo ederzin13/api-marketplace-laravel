@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Service\UserService;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -46,12 +46,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        $exists = $this->service->displayOne($id);
+        $toUpdate = $this->show($id);
+
+        $validatedData = $this->service->update($request->validated(), $id);
 
         return response()->json([
-            
+            "original" => $toUpdate,
+            "updated" => $request->all()
         ]);
     }
 

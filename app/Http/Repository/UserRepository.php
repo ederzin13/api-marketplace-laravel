@@ -21,8 +21,8 @@ class UserRepository {
         return User::where("email", $email)->first();
     }
 
-    public function updateOne(array $data) {
-        return User::update($data);
+    public function updateUser(array $data, $id) {
+        return User::where("id", "=", $id)->update($data);
     }
 
     public function deleteOne($id) {

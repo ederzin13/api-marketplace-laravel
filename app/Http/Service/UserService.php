@@ -27,8 +27,8 @@ class UserService {
         return $this->repository->displayOne($id);
     }
 
-    public function update(array $data) {
-        return $this->repository->updateOne($data);
+    public function update(array $data, $id) {
+        return $this->repository->updateUser($data, $id);
     }
 
     public function deleteOne($id) {
