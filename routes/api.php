@@ -40,7 +40,8 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::post("/logout", [AuthController::class, "logout"]);
     
     Route::middleware(CheckIfIsAdmin::class)->group(function () {
-        //Route::post("/users/create-moderator", [UserController::class, "createModerator"]);
+        //admin logado envia o e-mail do usuário ALVO como requisição
+        Route::post("/users/create-moderator", [UserController::class, "createModerator"]);
         
         //crud categorias
         Route::post("/categories", [CategoryController::class, "store"]);

@@ -25,6 +25,10 @@ class UserRepository {
         return User::where("id", "=", $id)->update($data);
     }
 
+    public function updateRole($email, $role) {
+        return User::where("email", "=", $email)->update($role);
+    }
+
     public function deleteOne($id) {
         return User::destroy($id);
     }

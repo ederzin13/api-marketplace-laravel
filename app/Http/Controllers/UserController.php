@@ -60,6 +60,14 @@ class UserController extends Controller
         ]);
     }
 
+    public function createModerator(Request $request) {
+        $email = $request->only(["email"]);
+
+        return response()->json([
+            "new_mod" => $this->service->updateRole($email)
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

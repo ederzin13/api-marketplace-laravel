@@ -23,6 +23,16 @@ class UserService {
         ]);
     }
 
+    public function createCart() {
+        
+    }
+
+    public function updateRole($email) {
+        $role = ["role" => "moderator"];
+
+        return $this->repository->updateRole($email, $role);
+    }
+
     public function displayOne($id) {
         return $this->repository->displayOne($id);
     }
