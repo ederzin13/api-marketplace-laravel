@@ -2,11 +2,14 @@
 
 namespace App\Http\Service;
 
+use App\Http\Service\CartService;
 use App\Http\Repository\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
 class UserService {
-    public function __construct(protected UserRepository $repository) {}
+    public function __construct(protected UserRepository $repository, protected CartService $cartService) {}
+
+    //current user?
 
     public function getAll() {
         return $this->repository->getAll();
@@ -15,17 +18,19 @@ class UserService {
     //REGISTRO DE USUÁRIOS
     //não sei se é o correto deixar definir o role logo de cara
     public function newUser(array $data) {
-        return $this->repository->newUser([
+        $user = $this->repository->newUser([
             "name" => $data["name"],
             "email" => $data["email"],
             "role" => $data["role"] ?? "client",
             "password" => Hash::make($data["password"])
         ]);
+
+        $this->cartService->createCart($user->id);
+
+        return $user;
     }
 
-    public function createCart() {
-        
-    }
+
 
     public function updateRole($email) {
         $role = ["role" => "moderator"];

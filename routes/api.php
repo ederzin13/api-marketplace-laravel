@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DiscountController;
@@ -33,6 +34,9 @@ Route::middleware(["auth:sanctum"])->group(function () {
     //arrumar a verificação de email no FUTURO
     Route::apiResource("/users", UserController::class);
     
+    //carrinhos
+    Route::apiResource("/carts", CartController::class);
+
     Route::apiResource("/addresses", AddressController::class);
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     
