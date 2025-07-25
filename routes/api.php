@@ -37,6 +37,10 @@ Route::middleware(["auth:sanctum"])->group(function () {
     //carrinhos
     Route::apiResource("/carts", CartController::class);
 
+    //fazer uma rota pra retornar apenas o carrinho do usuário LOGADO
+    Route::get("/cart/items/{id}", [CartController::class, "getItems"]);
+    Route::post("/cart/items", [CartController::class, "storeItem"]);
+
     Route::apiResource("/addresses", AddressController::class);
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     

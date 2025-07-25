@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreItemRequest;
 use App\Http\Service\CartItemService;
-use App\Http\Service\CartService;
-use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 
-class CartController extends Controller
+class CartItemController extends Controller
 {
-    public function __construct(protected CartService $service) {}
+    public function __construct(protected CartItemService $service) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->json($this->service->getAll());
+        //
     }
 
     /**
@@ -27,16 +26,10 @@ class CartController extends Controller
         //
     }
 
-    // public function storeItem(StoreItemRequest $request) {
-    //     $validatedData = $this->itemService->addItem($request->validated());
-
-    //     return response()->json($validatedData);
-    // }
-
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function show(CartItem $cartItem)
     {
         //
     }
@@ -44,7 +37,7 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, CartItem $cartItem)
     {
         //
     }
@@ -52,7 +45,7 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy(CartItem $cartItem)
     {
         //
     }

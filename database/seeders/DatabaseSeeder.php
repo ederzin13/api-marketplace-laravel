@@ -23,6 +23,14 @@ class DatabaseSeeder extends Seeder
             "password" => "administrador",
             "role" => "admin"
         ]);
+
+        User::factory()->create([
+            "name" => "normal comum",
+            "email" => "padrao@email.com",
+            "password" => "normalcomum",
+            "role" => "client"
+        ]);
+
         Category::factory(10)->create();
 
         Address::factory(10)->create();
