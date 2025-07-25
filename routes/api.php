@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 //cadastrar novo usuário
 Route::post("/register", [AuthController::class, "register"]);
 //logar
-Route::post("/login", [AuthController::class, "login"]);//->name("login");
+Route::post("/login", [AuthController::class, "login"]);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -70,7 +70,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::middleware(CheckIfIsModerator::class)->group(function () {
         //crud produtos
         Route::post("/products", [ProductController::class, "store"]);
-        Route::put("/products/{id}", [ProductController::class, "update"])->middleware(CheckIfIsModerator::class);
+        Route::put("/products/{id}", [ProductController::class, "update"])->middleware(CheckIfIsModerator::class); //isso daqui faz sentido? Digo... todas essas rotas já estão dentro do middleware de moderador >.<
         Route::put("/products/{id}/stock", [ProductController::class, "updateStock"])->middleware(CheckIfIsModerator::class);
         Route::delete("/products/{id}", [ProductController::class, "destroy"])->middleware(CheckIfIsModerator::class);
         //falta a rota de atualizar imagem >-<, obter produtos por categoria e obter produtos de usuário vamos VER
