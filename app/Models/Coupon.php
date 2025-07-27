@@ -15,6 +15,6 @@ class Coupon extends Model
 
     // RELAÇÃO CUPOM E PEDIDO??
     public function orders() {
-        $this->belongsTo(Order::class);
+        $this->belongsTo(Order::class, "orderId", "id");
     }
 }

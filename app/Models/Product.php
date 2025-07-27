@@ -17,11 +17,11 @@ class Product extends Model
     ];
 
     public function category() {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, "categoryId", "id");
     }
 
     public function discount() {
-        return $this->hasMany(Discount::class);
+        return $this->hasMany(Discount::class, "discountId");
     }
 
     //RELAÇÃO COM ORDERITEMS

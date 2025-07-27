@@ -16,14 +16,14 @@ class Order extends Model
     ];
 
     public function users() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, "userId", "id");
     }
 
     public function addresses() {
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Address::class, "addressId", "id");
     }
 
     public function coupons() {
-        return $this->hasOne(Coupon::class);
+        return $this->hasOne(Coupon::class, "couponId");
     }
 }

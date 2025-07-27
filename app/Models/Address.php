@@ -20,7 +20,7 @@ class Address extends Model
     ];
 
     public function users() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, "userId", "id");
     }
 
     public function orders() {
