@@ -20,4 +20,8 @@ class AddressRepository {
     public function updateAddress(array $data, $id) {
         return Address::find($id)->update($data);
     }
+
+    public function deleteAddress($id) {
+        return Address::destroy($id);
+    }
 }

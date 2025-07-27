@@ -22,4 +22,8 @@ class AddressService {
     public function updateAddress(array $data, $id) {
         return $this->repository->updateAddress($data, $id);
     }
+
+    public function deleteAddress($id) {
+        return $this->repository->deleteAddress($id);
+    }
 }

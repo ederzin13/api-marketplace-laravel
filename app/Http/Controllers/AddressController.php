@@ -53,8 +53,12 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Address $address)
+    public function destroy($id)
     {
-        //
+        return response()->json([
+            "to_delete" => $this->show($id),
+            "deleted" => $this->service->deleteAddress($id),
+            "message" => "success"
+        ]);
     }
 }
