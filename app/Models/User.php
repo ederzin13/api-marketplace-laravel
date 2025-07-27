@@ -48,6 +48,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function carts() {
+        return $this->hasOne(Cart::class);
+    }
+
     public function isAdmin() {
         return in_array($this->email, config("custom.admins"));
     }

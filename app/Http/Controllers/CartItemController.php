@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreItemRequest;
 use App\Http\Service\CartItemService;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
@@ -15,15 +16,19 @@ class CartItemController extends Controller
      */
     public function index()
     {
-        //
+        return $this->service->getItems();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        //
+        $validatedData = $this->service->addItem($request->validated());
+
+        return response()->json([
+            "added_item" => $request
+        ]);
     }
 
     /**

@@ -7,6 +7,11 @@ use App\Models\Cart;
 class CartRepository {
     public function getAll() {
         return Cart::all();
+        //??
+    }
+
+    public function getOne($id) {
+        return Cart::findOrFail($id);
     }
 
     public function createCart($id) {

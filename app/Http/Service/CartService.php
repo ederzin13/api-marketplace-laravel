@@ -11,6 +11,10 @@ class CartService {
         return $this->repository->getAll();
     }
 
+    public function getOne($id) {
+        
+    }
+
     public function createCart($id) {
         return $this->repository->createCart($id);
     }

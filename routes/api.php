@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DiscountController;
@@ -38,8 +39,8 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::apiResource("/carts", CartController::class);
 
     //fazer uma rota pra retornar apenas o carrinho do usuário LOGADO
-    Route::get("/cart/items/{id}", [CartController::class, "getItems"]);
-    Route::post("/cart/items", [CartController::class, "storeItem"]);
+    Route::get("/cart/items", [CartItemController::class, "index"]);
+    Route::post("/cart/items", [CartItemController::class, "store"]);
 
     Route::apiResource("/addresses", AddressController::class);
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
