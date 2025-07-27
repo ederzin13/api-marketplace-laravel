@@ -27,7 +27,7 @@ class CartItemController extends Controller
         $validatedData = $this->service->addItem($request->validated());
 
         return response()->json([
-            "added_item" => $request
+            "added_item" => $request->all()
         ]);
     }
 

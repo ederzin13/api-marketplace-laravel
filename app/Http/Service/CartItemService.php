@@ -11,7 +11,7 @@ class CartItemService {
     public function getItems() {
         $user = Auth::user();
 
-        return $this->repository->getItems($user->carts->id);
+        return $this->repository->getItems($user->cart->id);
     }
 
     public function addItem(array $data) {

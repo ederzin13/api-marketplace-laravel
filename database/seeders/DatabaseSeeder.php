@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
             "password" => "normalcomum",
             "role" => "client"
         ]);
+
+        Cart::factory()->create();
 
         Category::factory(10)->create();
 

@@ -48,8 +48,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function carts() {
-        return $this->hasOne(Cart::class, "cartId");
+    public function cart() {
+        return $this->hasOne(Cart::class, "userId", "id");
     }
 
     public function isAdmin() {

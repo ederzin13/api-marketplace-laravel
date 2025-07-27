@@ -13,7 +13,7 @@ class CartItem extends Model
         "unitPrice"
     ];
 
-    public function carts() {
+    public function cart() {
         return $this->belongsTo(Cart::class, "cartId", "id");
     }
 }
