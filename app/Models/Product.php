@@ -25,4 +25,7 @@ class Product extends Model
     }
 
     //RELAÇÃO COM ORDERITEMS
+    public function orderItems() {
+        return $this->hasMany(OrderItem::class, "productId", "id");
+    }
 }

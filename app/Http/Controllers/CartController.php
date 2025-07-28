@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreItemRequest;
-use App\Http\Service\CartItemService;
+use App\Http\Requests\StoreOrderRequest;
 use App\Http\Service\CartService;
+use App\Http\Service\OrderService;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function __construct(protected CartService $service) {}
+    public function __construct(
+        protected CartService $service, 
+        protected OrderService $orderService,
+        ) {}
     /**
      * Display a listing of the resource.
      */
@@ -30,19 +33,26 @@ class CartController extends Controller
     {
         //
     }
+    
+    //CRIAR PEDIDO A PARTIR DO CARRINHO?
+    public function newOrder(StoreOrderRequest $request) {
+        // $validatedData = $this->orderService->newOrder($request->validated());
+        $testebob = $this->service->newOrder();
 
-    // public function storeItem(StoreItemRequest $request) {
-    //     $validatedData = $this->itemService->addItem($request->validated());
-
-    //     return response()->json($validatedData);
-    // }
+        return response()->json([
+            "bob" => $testebob
+        ]);
+        // return response()->json([
+        //     "created" => $request->all()
+        // ]);
+    }
 
     /**
      * Display the specified resource.
      */
     public function show(Cart $cart)
     {
-        //
+        //TALVEZ TRAZER O MÉTODO DE MOSTRAR O CARRINHO DO USUÁRIO LOGADO PRA CÁ
     }
 
     /**

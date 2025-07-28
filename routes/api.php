@@ -49,6 +49,9 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::apiResource("/addresses", AddressController::class);
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     
+    //pedidos
+    Route::post("/testarbobers", [CartController::class, "newOrder"]);
+
     //deslogar
     Route::post("/logout", [AuthController::class, "logout"]);
     
