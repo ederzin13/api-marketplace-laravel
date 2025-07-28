@@ -9,11 +9,19 @@ class CartItemRepository {
         return CartItem::where("cartId", "=", $id)->get();
     }
 
+    public function getOneItem($id) {
+        return CartItem::findOrFail($id);
+    }
+
     public function addItem(array $data) {
         return CartItem::create($data);
     }
 
-    public function updateItem(array $data) {
+    public function updateItem(array $data, $id) {
+        return CartItem::where("id", "=", $id)->update($data);
+    }
 
+    public function removeItem($id) {
+        return CartItem::destroy($id);
     }
 }
