@@ -10,7 +10,7 @@ class CartRepository {
         //??
     }
 
-    public function getOne($id) {
+    public function getMyCart($id) {
         return Cart::findOrFail($id);
     }
 

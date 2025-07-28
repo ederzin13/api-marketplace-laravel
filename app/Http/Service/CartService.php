@@ -3,6 +3,8 @@
 namespace App\Http\Service;
 
 use App\Http\Repository\CartRepository;
+use Illuminate\Support\Facades\Auth;
+
 
 class CartService {
     public function __construct(protected CartRepository $repository) {}
@@ -11,8 +13,10 @@ class CartService {
         return $this->repository->getAll();
     }
 
-    public function getOne($id) {
-        
+    public function getMyCart() {
+        $user = Auth::user();
+
+        return $this->repository->getMyCart($user->id);
     }
 
     public function createCart($id) {

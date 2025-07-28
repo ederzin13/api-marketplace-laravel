@@ -19,6 +19,10 @@ class CartController extends Controller
         return response()->json($this->service->getAll());
     }
 
+    public function getMyCart() {
+        return response()->json($this->service->getMyCart());
+    }
+
     /**
      * Store a newly created resource in storage.
      */

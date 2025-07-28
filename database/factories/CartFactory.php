@@ -18,7 +18,7 @@ class CartFactory extends Factory
     {
         return [
             "createdAt" => now(),
-            "userId" => 1
+            // "userId" => 1
         ];
     }
 }

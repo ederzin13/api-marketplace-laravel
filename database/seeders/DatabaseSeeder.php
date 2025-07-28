@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,7 +33,13 @@ class DatabaseSeeder extends Seeder
             "role" => "client"
         ]);
 
-        Cart::factory()->create();
+        //isso daqui é só pra quando os dois usuários padrão aí de cima
+        //já existirem. Se eles não existirem no momento de rodar o seeder, 
+        //favor comentar as 4 linhas abaixo
+        Cart::factory(2)->state(new Sequence(
+            ["userId" => 1],
+            ["userId" => 2]
+        ))->create();
 
         Category::factory(10)->create();
 
