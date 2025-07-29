@@ -7,6 +7,7 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckIfIsAdmin;
@@ -51,6 +52,7 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     
     //pedidos
+    Route::get("/orders", [OrderController::class, "index"]); //FAVIR TIRAR DAQUI NO FUTURO
     Route::post("/testarbobers", [CartController::class, "newOrder"]);
 
     //deslogar

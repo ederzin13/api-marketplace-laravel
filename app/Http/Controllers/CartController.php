@@ -34,17 +34,9 @@ class CartController extends Controller
         //
     }
     
-    //CRIAR PEDIDO A PARTIR DO CARRINHO?
     public function newOrder(StoreOrderRequest $request) {
         // $validatedData = $this->orderService->newOrder($request->validated());
-        $testebob = $this->service->newOrder();
-
-        return response()->json([
-            "bob" => $testebob
-        ]);
-        // return response()->json([
-        //     "created" => $request->all()
-        // ]);
+        $testebob = $this->orderService->newOrder($request->validated());
     }
 
     /**

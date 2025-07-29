@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId("userId")->references("id")->on("users");
             $table->foreignId("addressId")->references("id")->on("addresses");
             $table->dateTime("orderDate");
-            $table->foreignId("couponId")->references("id")->on("coupons")->nullable();
+            $table->foreignId("couponId")->nullable()->references("id")->on("coupons");
             $table->enum("status", ["pending", "processing", "shipped", "completed", "canceled"]);
             $table->decimal("totalAmount", 10, 2);
             $table->timestamps();
