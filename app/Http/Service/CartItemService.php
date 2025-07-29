@@ -45,4 +45,10 @@ class CartItemService {
     public function removeItem($id) {
         return $this->repository->removeItem($id);
     }
+
+    public function clear() {
+        $user = Auth::user();
+
+        return $this->repository->clear($user->cart->id);
+    }
 }

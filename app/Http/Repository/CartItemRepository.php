@@ -24,4 +24,9 @@ class CartItemRepository {
     public function removeItem($id) {
         return CartItem::destroy($id);
     }
+
+
+    public function clear($cartId) {
+        return CartItem::where("cartId", "=", $cartId)->delete();
+    }
 }

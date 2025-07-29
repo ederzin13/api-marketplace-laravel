@@ -67,4 +67,10 @@ class CartItemController extends Controller
             "deleted" => $this->service->removeItem($id)
         ]);
     }
+
+    public function clear() {
+        return response()->json([
+            "deu certo" => $this->service->clear()
+        ]);
+    }
 }
