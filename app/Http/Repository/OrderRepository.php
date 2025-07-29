@@ -9,7 +9,19 @@ class OrderRepository {
         return Order::all();
     }
 
+    public function getMyOrders($id) {
+        return Order::where("userId", "=", $id)->get();
+    }
+
+    public function getOne($id) {
+        return Order::findOrFail($id);
+    }
+
     public function newOrder(array $data) {
         return Order::create($data);
+    }
+
+    public function deleteOrder($id) {
+        return Order::destroy($id);
     }
 }

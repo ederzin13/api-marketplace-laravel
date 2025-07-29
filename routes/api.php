@@ -51,9 +51,11 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::apiResource("/addresses", AddressController::class);
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     
-    //pedidos
-    Route::get("/orders", [OrderController::class, "index"]); //FAVIR TIRAR DAQUI NO FUTURO
-    Route::post("/testarbobers", [CartController::class, "newOrder"]);
+    //pedidos (ponto de vista do cliente)
+    Route::get("/orders", [OrderController::class, "index"]);
+    Route::get("/orders/{id}", [OrderController::class, "show"]);
+    Route::post("/orders", [CartController::class, "newOrder"]);
+    Route::delete("/orders/{id}", [OrderController::class, "destroy"]);
 
     //deslogar
     Route::post("/logout", [AuthController::class, "logout"]);

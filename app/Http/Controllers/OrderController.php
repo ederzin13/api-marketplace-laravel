@@ -15,9 +15,11 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    //retorna só as rotas do usuário
     public function index()
     {
-        return response()->json($this->service->getAll());
+        return response()->json($this->service->getMyOrders());
     }
 
     /**
@@ -31,9 +33,9 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show($id)
     {
-        //
+        return $this->service->getOne($id);
     }
 
     /**
@@ -47,8 +49,8 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        return response()->json($this->service->cancelOrder($id));
     }
 }

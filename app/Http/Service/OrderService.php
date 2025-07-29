@@ -18,6 +18,16 @@ class OrderService {
         return $this->repository->getAll();
     }
 
+    public function getMyOrders() {
+        $user = Auth::user();
+
+        return $this->repository->getMyOrders($user->id);
+    }
+
+    public function getOne($id) {
+        return $this->repository->getOne($id);
+    }
+
     public function newOrder(array $data) {
         $user = Auth::user();
 
@@ -46,5 +56,23 @@ class OrderService {
         }
 
         return $total;
+    }
+
+    public function orderBelongsToUser($id) {
+       $user = Auth::user();
+
+        $order = $this->getOne($id);
+
+        if ($user->id != $order->userId) {
+            return [
+                "message" => "Pedido não pertence a esse usuário" //ou algo do gênero
+            ];
+        }
+    }
+
+    public function cancelOrder($id) {
+        $this->orderBelongsToUser($id);
+
+        return $this->repository->deleteOrder($id);
     }
 }
