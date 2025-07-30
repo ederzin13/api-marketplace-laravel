@@ -7,6 +7,7 @@ use App\Http\Repository\OrderRepository;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Coupon;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 class OrderService {
@@ -52,8 +53,20 @@ class OrderService {
             "totalAmount" => $this->totalAmount($items, $couponDiscount)
         ]);
 
-        dd($items, $order);
-        // return $this->repository->newOrder($data);
+        $this->storeOrderItem($items);
+    }
+
+    public function storeOrderItem($items) {
+        $order = Order::get()->last();
+
+        foreach ($items as $item) {
+            $this->orderItemRepository->storeItems([
+                "orderId" => $order->id,
+                "productId" => $item->productId,
+                "quantity" => $item->quantity,
+                "unitPrice" => $item->unitPrice
+            ]);
+        }
     }
 
     public function updateStatus($status, $id) {
