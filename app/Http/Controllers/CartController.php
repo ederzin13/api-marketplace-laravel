@@ -36,7 +36,7 @@ class CartController extends Controller
     
     public function newOrder(StoreOrderRequest $request) {
         // $validatedData = $this->orderService->newOrder($request->validated());
-        $testebob = $this->orderService->newOrder($request->validated());
+        $testebob = $this->orderService->newOrder($request->validated());  
     }
 
     /**

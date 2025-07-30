@@ -52,11 +52,13 @@ Route::middleware(["auth:sanctum"])->group(function () {
     Route::post("/addresses/{id}", [AddressController::class, "update"]);
     
     //pedidos (ponto de vista do cliente)
+    Route::get("/orders/all", [OrderController::class, "getAll"]);
     Route::get("/orders", [OrderController::class, "index"]);
     Route::get("/orders/{id}", [OrderController::class, "show"]);
     Route::post("/orders", [CartController::class, "newOrder"]);
     Route::delete("/orders/{id}", [OrderController::class, "destroy"]);
-
+    
+    
     //deslogar
     Route::post("/logout", [AuthController::class, "logout"]);
     
@@ -87,6 +89,9 @@ Route::middleware(["auth:sanctum"])->group(function () {
         Route::put("/products/{id}/stock", [ProductController::class, "updateStock"])->middleware(CheckIfIsModerator::class);
         Route::delete("/products/{id}", [ProductController::class, "destroy"])->middleware(CheckIfIsModerator::class);
         //falta a rota de atualizar imagem >-<, obter produtos por categoria e obter produtos de usuário vamos VER
+        
+        //atualizar status do pedido para MODERADOR
+        Route::put("/orders/{id}", [OrderController::class, "update"]);
     });
 });
 

@@ -46,6 +46,10 @@ class OrderService {
         // return $this->repository->newOrder($data);
     }
 
+    public function updateStatus($status, $id) {
+        return $this->repository->updateStatus($status, $id);
+    }
+
     public function totalAmount($items) {
         $total = 0;
 

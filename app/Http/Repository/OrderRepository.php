@@ -21,6 +21,10 @@ class OrderRepository {
         return Order::create($data);
     }
 
+    public function updateStatus($status, $id) {
+        return Order::where("id", "=", $id)->update($status);
+    }
+
     public function deleteOrder($id) {
         return Order::destroy($id);
     }
