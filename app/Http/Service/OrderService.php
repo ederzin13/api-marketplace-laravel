@@ -37,7 +37,7 @@ class OrderService {
             "userId" => $user->id,
             "addressId" => $data["addressId"],
             "orderDate" => now(),
-            "couponId" => null,
+            "couponId" => $data["couponId"] ?? null,
             "status" => "pending",
             "totalAmount" => $this->totalAmount($items)
         ]);

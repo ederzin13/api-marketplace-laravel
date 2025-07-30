@@ -35,8 +35,12 @@ class CartController extends Controller
     }
     
     public function newOrder(StoreOrderRequest $request) {
-        // $validatedData = $this->orderService->newOrder($request->validated());
-        $testebob = $this->orderService->newOrder($request->validated());  
+        $validatedData = $this->orderService->newOrder($request->validated());  
+
+        return response()->json([
+            "data" => $request->all(),
+            "message" => "created"
+        ], 201);
     }
 
     /**
