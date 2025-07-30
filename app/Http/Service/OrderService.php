@@ -6,6 +6,7 @@ use App\Http\Repository\OrderItemRepository;
 use App\Http\Repository\OrderRepository;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Coupon;
 use Illuminate\Support\Facades\Auth;
 
 class OrderService {
@@ -33,13 +34,22 @@ class OrderService {
 
         $items = CartItem::where("cartId", "=", $user->cart->id)->get();
 
+        $couponDiscount = null;
+
+        //se couponId não estiver vazio, a expressão retorna true
+        if (!empty($data["couponId"])) {
+            $coupon = Coupon::findOrFail($data["couponId"]);
+
+            $couponDiscount = $coupon->discountPercentage / 100;
+        }
+
         $order = $this->repository->newOrder([
             "userId" => $user->id,
             "addressId" => $data["addressId"],
             "orderDate" => now(),
             "couponId" => $data["couponId"] ?? null,
             "status" => "pending",
-            "totalAmount" => $this->totalAmount($items)
+            "totalAmount" => $this->totalAmount($items, $couponDiscount)
         ]);
 
         dd($items, $order);
@@ -50,13 +60,19 @@ class OrderService {
         return $this->repository->updateStatus($status, $id);
     }
 
-    public function totalAmount($items) {
+    public function totalAmount($items, $couponDiscount) {
         $total = 0;
 
         foreach ($items as $item) {
             $itemPrice = $item->quantity * $item->unitPrice;
 
             $total += $itemPrice;
+        }
+
+        if ($couponDiscount) {
+            $discountValue = $total * $couponDiscount;
+
+            return $total - $discountValue;
         }
 
         return $total;
