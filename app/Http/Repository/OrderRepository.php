@@ -25,7 +25,7 @@ class OrderRepository {
         return Order::where("id", "=", $id)->update($status);
     }
 
-    public function deleteOrder($id) {
-        return Order::destroy($id);
+    public function deleteOrder($canceled, $id) {
+        return Order::where("id", "=", $id)->update($canceled);
     }
 }

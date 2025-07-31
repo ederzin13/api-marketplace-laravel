@@ -106,6 +106,10 @@ class OrderService {
     public function cancelOrder($id) {
         $this->orderBelongsToUser($id);
 
-        return $this->repository->deleteOrder($id);
+        $canceled = [
+            "status" => "canceled"
+        ];
+
+        return $this->repository->deleteOrder($canceled, $id);
     }
 }

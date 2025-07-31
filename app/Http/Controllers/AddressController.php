@@ -29,7 +29,7 @@ class AddressController extends Controller
         return response()->json([
             "message" => "Endereço cadastrado",
             "data" => $validatedData
-        ]);
+        ], 201); //será que coloco os status em todos os métodos?
     }
 
     /**
@@ -37,7 +37,7 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->service->getOne($id));
+        return response()->json($this->service->getOne($id), 200);
     }
 
     /**
@@ -47,7 +47,7 @@ class AddressController extends Controller
     {
         $validatedData = $request->validated();
 
-        return response()->json($this->service->updateAddress($validatedData, $id));
+        return response()->json($this->service->updateAddress($validatedData, $id), 200);
     }
 
     /**
@@ -59,6 +59,6 @@ class AddressController extends Controller
             "to_delete" => $this->show($id),
             "deleted" => $this->service->deleteAddress($id),
             "message" => "success"
-        ]);
+        ], 200);
     }
 }
