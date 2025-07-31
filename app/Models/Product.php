@@ -21,7 +21,7 @@ class Product extends Model
     }
 
     public function discount() {
-        return $this->hasMany(Discount::class, "discountId");
+        return $this->hasMany(Discount::class, "productId", "id");
     }
 
     //RELAÇÃO COM ORDERITEMS

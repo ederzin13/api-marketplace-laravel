@@ -22,6 +22,7 @@ class StoreDiscountRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "productId" => "sometimes|integer",
             "description" => "required|string|max:255",
             "startDate" => "required|date",
             "endDate" => "required|date",

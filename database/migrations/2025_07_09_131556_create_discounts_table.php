@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("productId")->nullable()->references("id")->on("products");
             $table->string("description");
             $table->date("startDate");
             $table->date("endDate");
