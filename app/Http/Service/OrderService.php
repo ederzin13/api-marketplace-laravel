@@ -8,12 +8,14 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Coupon;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 class OrderService {
     public function __construct(
         protected OrderRepository $repository,
-        protected OrderItemRepository $orderItemRepository
+        protected OrderItemRepository $orderItemRepository,
+        protected ProductService $productService
         ) {}
 
     public function getAll() {
@@ -44,20 +46,34 @@ class OrderService {
             $couponDiscount = $coupon->discountPercentage / 100;
         }
 
+        $finalItems = [];
+
+        foreach ($items as $item) {
+            $product = Product::findOrFail($item->productId);
+
+            $discountedPrice = $this->productService->applyDiscount($product->id) ?? $product->price;
+
+            $finalItems[] = (object) [
+                "productId" => $product->id,
+                "quantity" => $item->quantity,
+                "unitPrice" => $discountedPrice
+            ];
+        }
+
         $order = $this->repository->newOrder([
             "userId" => $user->id,
             "addressId" => $data["addressId"],
             "orderDate" => now(),
             "couponId" => $data["couponId"] ?? null,
             "status" => "pending",
-            "totalAmount" => $this->totalAmount($items, $couponDiscount)
+            "totalAmount" => $this->totalAmount($finalItems, $couponDiscount)
         ]);
 
         $this->storeOrderItem($items);
     }
 
     public function storeOrderItem($items) {
-        $order = Order::get()->last();
+        $order = Order::latest()->first();
 
         foreach ($items as $item) {
             $this->orderItemRepository->storeItems([
@@ -73,7 +89,7 @@ class OrderService {
         return $this->repository->updateStatus($status, $id);
     }
 
-    public function totalAmount($items, $couponDiscount) {
+    public function totalAmount($items, $couponDiscount) {//ajeitar essa continha aqui 
         $total = 0;
 
         foreach ($items as $item) {

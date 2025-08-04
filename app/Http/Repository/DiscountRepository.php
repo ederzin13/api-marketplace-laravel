@@ -10,7 +10,15 @@ class DiscountRepository {
     }
 
     public function getOne($id) {
+        // return Discount::where("id", "=", $id)->get();
         return Discount::findOrFail($id);
+    }
+    
+    public function getActiveDiscount($productId) {
+        return Discount::where("productId", $productId)
+            ->where("startDate", "<=", now())
+            ->where("endDate", ">=", now())
+            ->get();
     }
 
     public function newDiscount(array $data) {

@@ -76,4 +76,11 @@ class ProductController extends Controller
             "deleted" => $id
         ]);
     }
+
+    public function discount() {
+        // $response = $this->service->hasDiscount(2);
+        $response = $this->service->applyDiscount(2);
+
+        return response()->json($response);
+    }
 }

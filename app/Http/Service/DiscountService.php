@@ -25,5 +25,5 @@ class DiscountService {
 
     public function deleteDiscount($id) {
         return $this->repository->deleteDiscount($id);
-    } 
+    }
 }
