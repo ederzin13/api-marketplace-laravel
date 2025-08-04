@@ -5,6 +5,7 @@ namespace App\Http\Service;
 use App\Http\Repository\CouponRepository;
 use App\Http\Repository\OrderItemRepository;
 use App\Http\Repository\OrderRepository;
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Coupon;
@@ -68,6 +69,12 @@ class OrderService {
             ];
         }
 
+        // if (!$this->addressBelongsToUser($data["addressId"], $user->id)) {
+        //     return response()->json([
+        //         "message" => "endereço inválido"
+        //     ], 403);
+        // } //????
+
         //finalmente cria o pedido
         $order = $this->repository->newOrder([
             "userId" => $user->id,
@@ -117,15 +124,21 @@ class OrderService {
     }
 
     public function orderBelongsToUser($id) {
-       $user = Auth::user();
+        $user = Auth::user();
 
         $order = $this->getOne($id);
 
         if ($user->id != $order->userId) {
             return [
-                "message" => "Pedido não pertence a esse usuário" //ou algo do gênero
+                "message" => "Pedido não pertence a esse usuário" //ou algo do gênero -> isso daqui funciona?
             ];
         }
+    }
+
+    public function addressBelongsToUser($addressId, $userId): bool {
+        return Address::where("userId", "=", $userId)
+            ->where("id", "=", $addressId)
+            ->exists();
     }
 
     public function cancelOrder($id) {
