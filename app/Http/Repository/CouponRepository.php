@@ -13,6 +13,13 @@ class CouponRepository {
         return Coupon::findOrFail($id);
     }
 
+    public function getActiveCoupon($id) {
+        return Coupon::where("id", "=", $id)
+            ->where("startDate", "<=", now())
+            ->where("endDate", ">=", now())
+            ->get();
+    }
+
     public function createCoupon(array $data) {
         return Coupon::create($data);
     }

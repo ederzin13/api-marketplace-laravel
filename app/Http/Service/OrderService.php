@@ -2,6 +2,7 @@
 
 namespace App\Http\Service;
 
+use App\Http\Repository\CouponRepository;
 use App\Http\Repository\OrderItemRepository;
 use App\Http\Repository\OrderRepository;
 use App\Models\Cart;
@@ -15,7 +16,8 @@ class OrderService {
     public function __construct(
         protected OrderRepository $repository,
         protected OrderItemRepository $orderItemRepository,
-        protected ProductService $productService
+        protected ProductService $productService,
+        protected CouponRepository $couponRepository
         ) {}
 
     public function getAll() {
@@ -39,13 +41,19 @@ class OrderService {
 
         $couponDiscount = null;
 
-        //se couponId não estiver vazio, a expressão retorna true
-        if (!empty($data["couponId"])) {
+        //se couponId não estiver vazio e o cupom estiver ativo
+        //a expressão retorna true
+        if (!empty($data["couponId"]) 
+                && 
+            !empty($this->couponRepository->getActiveCoupon($data["couponId"]))
+            ) 
+            {
             $coupon = Coupon::findOrFail($data["couponId"]);
 
             $couponDiscount = $coupon->discountPercentage / 100;
         }
 
+        //aplica os descontos nos items do pedido, se houver
         $finalItems = [];
 
         foreach ($items as $item) {
@@ -60,6 +68,7 @@ class OrderService {
             ];
         }
 
+        //finalmente cria o pedido
         $order = $this->repository->newOrder([
             "userId" => $user->id,
             "addressId" => $data["addressId"],
