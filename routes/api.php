@@ -80,9 +80,6 @@ Route::middleware(["auth:sanctum"])->group(function () {
 
         //crud descontos
         Route::apiResource("/discounts", DiscountController::class);
-
-        //para fins de testes APENAS
-        Route::get("/teste", [ProductController::class, "discount"]);
     }); 
 
     Route::middleware(CheckIfIsModerator::class)->group(function () {
