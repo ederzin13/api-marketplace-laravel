@@ -141,9 +141,7 @@ class OrderService {
         $order = $this->getOne($id);
 
         if ($user->id != $order->userId) {
-            return [
-                "message" => "Pedido não pertence a esse usuário" //ou algo do gênero -> isso daqui funciona?
-            ];
+            throw new AuthenticationException("Pedido não pertence a esse usuário");
         }
     }
 

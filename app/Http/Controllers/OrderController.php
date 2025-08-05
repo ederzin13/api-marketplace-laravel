@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Service\OrderService;
 use App\Models\Order;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 //PRECISO DESSE CONTROLADOR???
@@ -62,6 +63,14 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json($this->service->cancelOrder($id));
+        try {
+            return response()->json($this->service->cancelOrder($id));
+        }
+
+        catch (AuthorizationException $error) {
+            return response()->json([
+                "message" => $error
+            ]);
+        }
     }
 }
