@@ -11,6 +11,7 @@ use App\Models\CartItem;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 
 class OrderService {
@@ -69,11 +70,9 @@ class OrderService {
             ];
         }
 
-        // if (!$this->addressBelongsToUser($data["addressId"], $user->id)) {
-        //     return response()->json([
-        //         "message" => "endereço inválido"
-        //     ], 403);
-        // } //????
+        if (!$this->addressBelongsToUser($data["addressId"], $user->id)) {
+            throw new AuthenticationException("Endereço inválido");
+        } //????
 
         //finalmente cria o pedido
         $order = $this->repository->newOrder([
@@ -85,7 +84,7 @@ class OrderService {
             "totalAmount" => $this->totalAmount($finalItems, $couponDiscount)
         ]);
 
-        $this->storeOrderItem($items);
+        $this->storeOrderItem($finalItems);
     }
 
     public function storeOrderItem($items) {

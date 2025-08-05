@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Service\CartService;
 use App\Http\Service\OrderService;
 use App\Models\Cart;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -35,12 +36,20 @@ class CartController extends Controller
     }
     
     public function newOrder(StoreOrderRequest $request) {
-        $validatedData = $this->orderService->newOrder($request->validated());  
+        try {
+            $validatedData = $this->orderService->newOrder($request->validated());  
 
-        return response()->json([
-            "data" => $request->all(),
-            "message" => "created"
-        ], 201);
+            return response()->json([
+                "data" => $request->all(),
+                "message" => "created"
+            ], 201);
+        }
+
+        catch (AuthorizationException $error) {
+            return response()->json([
+                "message" => $error->getMessage()
+            ]);
+        }
     }
 
     /**
