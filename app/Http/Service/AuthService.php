@@ -12,22 +12,6 @@ use Illuminate\Validation\ValidationException;
 class AuthService {
     public function __construct(protected UserRepository $repository) {}
 
-    public function authenticate(LoginRequest $request) {
-        $credentials = $request->validated();
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return [
-                "message" => "autenticado"
-            ];
-        } else {
-            return [
-                "message" => "erro por algum motivo"
-            ];
-        }
-    }
-
     public function login(array $credentials) { 
         $user = $this->repository->getByEmail($credentials["email"]);
 

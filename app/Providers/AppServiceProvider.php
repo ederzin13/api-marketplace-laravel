@@ -22,12 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define("manageCategories", function (User $user) {
-            //TODO essa parte está conferindo o cargo diretamente.
-            //no arquivo custom.php tenho métodos que conferem se o usuário é admin ou moderator
-            //o que eu posso fazer aqui é o seguinte:
-            //
-            //como os métodos retornam um bool, posso conferir se o retorno é verdadeiro E
-            //se o papel está definido corretamente também
             return $user->role === "admin";
         });
 

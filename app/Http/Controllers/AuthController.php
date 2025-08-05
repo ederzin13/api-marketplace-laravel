@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function register(RegisterUserRequest $request)
     {
         $user = $this->userService->newUser($request->validated());
-        //dd($user);
+        
         $token = $user->createToken("auth_token")->plainTextToken;
 
         return response()->json([

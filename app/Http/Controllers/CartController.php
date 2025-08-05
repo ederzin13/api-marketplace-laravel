@@ -48,7 +48,7 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        //TALVEZ TRAZER O MÉTODO DE MOSTRAR O CARRINHO DO USUÁRIO LOGADO PRA CÁ
+        //
     }
 
     /**
