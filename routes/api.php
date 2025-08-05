@@ -61,8 +61,6 @@ Route::middleware(["auth:sanctum"])->group(function () {
     
     //deslogar
     Route::post("/logout", [AuthController::class, "logout"]);
-
-    Route::get("/teste", [OrderController::class, "testao"]);
     
     Route::middleware(CheckIfIsAdmin::class)->group(function () {
         //admin logado envia o e-mail do usuário ALVO como requisição

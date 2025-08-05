@@ -64,8 +64,4 @@ class OrderController extends Controller
     {
         return response()->json($this->service->cancelOrder($id));
     }
-
-    public function testao() {
-        $this->service->addressBelongsToUser(2, 1);
-    }
 }
