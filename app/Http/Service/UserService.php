@@ -35,10 +35,6 @@ class UserService {
     public function updateRole($email) {
         $role = ["role" => "moderator"];
 
-        //TODO Aqui eu atualizo o papel do usuário no banco de dados APENAS
-        //é necessário que o email desse usuário seja colocado naquele array do 
-        //arquivo /config/custom.php
-        //deve dar pra fazer um append ou coisa do tipo
         return $this->repository->updateRole($email, $role);
     }
 

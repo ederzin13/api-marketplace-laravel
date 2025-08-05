@@ -26,18 +26,4 @@ class CartService {
     public function createCart($id) {
         return $this->repository->createCart($id);
     }
-
-    public function newOrder() {
-        $user = Auth::user();
-
-        $cart = $this->repository->getMyCart($user->id);
-
-        if ($cart->cartItems->isEmpty()) {
-            return [
-                "message" => "nada no carrinho"
-            ];
-        }
-
-        
-    }
 }

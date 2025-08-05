@@ -2,6 +2,7 @@
 
 namespace App\Http\Service;
 
+use App\Http\Repository\CartRepository;
 use App\Http\Repository\CouponRepository;
 use App\Http\Repository\OrderItemRepository;
 use App\Http\Repository\OrderRepository;
@@ -12,6 +13,7 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 
 class OrderService {
@@ -19,7 +21,8 @@ class OrderService {
         protected OrderRepository $repository,
         protected OrderItemRepository $orderItemRepository,
         protected ProductService $productService,
-        protected CouponRepository $couponRepository
+        protected CouponRepository $couponRepository,
+        protected CartRepository $cartRepository
         ) {}
 
     public function getAll() {
@@ -40,6 +43,16 @@ class OrderService {
         $user = Auth::user();
 
         $items = CartItem::where("cartId", "=", $user->cart->id)->get();
+
+        $cart = $this->cartRepository->getMyCart($user->id);
+
+        if ($cart->cartItems->isEmpty()) {
+            throw new HttpResponseException(
+                response()->json([
+                    "message" => "Carrinho vazio"
+                ], 400) 
+            );
+        }
 
         $couponDiscount = null;
 
@@ -72,7 +85,7 @@ class OrderService {
 
         if (!$this->addressBelongsToUser($data["addressId"], $user->id)) {
             throw new AuthenticationException("Endereço inválido");
-        } //????
+        } 
 
         //finalmente cria o pedido
         $order = $this->repository->newOrder([
