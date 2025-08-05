@@ -53,10 +53,10 @@ class User extends Authenticatable
     }
 
     public function isAdmin() {
-        return in_array($this->email, config("custom.admins"));
+        return $this->role === "admin";
     }
 
     public function isModerator() {
-        return in_array($this->email, config("custom.moderators"));
+        return $this->role === "moderator";
     }
 }
