@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Http\Service\CategoryService;
 use App\Models\Category;
 
@@ -15,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return response()->json($this->service->getAll());
+        $categories = $this->service->getAll();
+
+        return new CategoryResource($categories);
     }
 
     /**
@@ -26,7 +29,7 @@ class CategoryController extends Controller
         $validatedData = $this->service->newCategory($request->validated());
 
         return response()->json([
-            "new_category" => $validatedData,
+            "new_category" => new CategoryResource($validatedData),
             "message" => "success"
         ]);
     }
@@ -36,7 +39,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->service->getOne($id));
+        $category = $this->service->getOne($id);
+
+        return new CategoryResource($category);
     }
 
     /**
@@ -44,13 +49,15 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, $id)
     {
-        $toUpdate = $this->service->getOne($id);
+        $original = $this->service->getOne($id);
 
-        $validatedData = $this->service->updateCategory($request->validated(), $id);
+        $this->service->updateCategory($request->validated(), $id);
+
+        $updated = $this->service->getOne($id);
 
         return response()->json([
-            "original" => $toUpdate,
-            "updated" => $request->all()
+            "original" => $original,
+            "updated" => $updated
         ]);
     }
 
@@ -59,10 +66,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $deletedCategory = $this->show($id);
+
         return response()->json([
-            "to_delete" => $this->show($id),
+            "to_delete" => $deletedCategory,
             "deleted" => $this->service->deleteCategory($id),
-            "status" => "success"
         ]);
     }
 }

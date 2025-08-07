@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\UpdateProductStockRequest;
+use App\Http\Resources\ProductResource;
 use App\Http\Service\ProductService;
 use App\Models\Product;
 
@@ -17,7 +18,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response()->json($this->service->getAll());
+        $products = $this->service->getAll();
+
+        return ProductResource::collection($products);
     }
 
     /**
@@ -29,7 +32,7 @@ class ProductController extends Controller
 
         return response()->json([
             "message" => "produto adicionado",
-            "product" => $validatedData
+            "product" => new ProductResource($validatedData)
         ]);
     }
 
@@ -38,7 +41,13 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return $this->service->getOne($id);
+        $product = $this->service->getOne($id);
+
+        $product->load("category");
+
+        return response()->json([
+            "product" => $product
+        ]);
     }
 
     /**
@@ -46,12 +55,15 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, $id)
     {
-        $validatedData = $this->service->updateProduct($request->validated(), $id);
+        $toUpdate = $this->service->getOne($id);
 
-        //fazer um retorno mais bonito
+        $this->service->updateProduct($request->validated(), $id);
+
+        $updated = $this->service->getOne($id);
+
         return response()->json([
-            "message" => "updated",
-            "updated_product" => $validatedData
+            "original" => $toUpdate,
+            "updated" => $updated
         ]);
     }
 
@@ -69,11 +81,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $this->service->deleteProduct($id);
+        $deletedProduct = $this->show($id);
 
+        
         return response()->json([
-            "message" => "deletado",
-            "deleted" => $id
+            "to_delete" => $deletedProduct,
+            "deleted" => $this->service->deleteProduct($id)
         ]);
     }
 }
