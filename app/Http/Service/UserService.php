@@ -9,18 +9,16 @@ use Illuminate\Support\Facades\Hash;
 class UserService {
     public function __construct(protected UserRepository $repository, protected CartService $cartService) {}
 
-    //current user?
-
     public function getAll() {
         return $this->repository->getAll();
     }
 
     //REGISTRO DE USUÁRIOS
-    //não sei se é o correto deixar definir o role logo de cara
     public function newUser(array $data) {
         $user = $this->repository->newUser([
             "name" => $data["name"],
             "email" => $data["email"],
+            "email_verified_at" => now(),
             "role" => $data["role"] ?? "client",
             "password" => Hash::make($data["password"])
         ]);
