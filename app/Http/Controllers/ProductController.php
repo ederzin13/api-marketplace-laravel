@@ -83,7 +83,6 @@ class ProductController extends Controller
     {
         $deletedProduct = $this->show($id);
 
-        
         return response()->json([
             "to_delete" => $deletedProduct,
             "deleted" => $this->service->deleteProduct($id)

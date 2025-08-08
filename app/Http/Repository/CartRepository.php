@@ -7,7 +7,6 @@ use App\Models\Cart;
 class CartRepository {
     public function getAll() {
         return Cart::all();
-        //??
     }
 
     public function getMyCart($id) {
@@ -20,4 +19,6 @@ class CartRepository {
             "createdAt" => now()
         ]);
     }
+
+    
 }

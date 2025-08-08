@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\GenericResource;
 use App\Http\Service\UserService;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->service->displayOne($id));
+        return new GenericResource($this->service->displayOne($id));
     }
 
     /**
@@ -48,11 +49,11 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $toUpdate = $this->show($id);
+        $toUpdate = $this->service->displayOne($id);
 
-        $validatedData = $this->service->update($request->validated(), $id);
-        //jeito alternativo de mostrar o registro atualizado vamos VER se deixo assim
-        $updated = $this->show($id);
+        $this->service->update($request->validated(), $id);
+
+        $updated = $this->service->displayOne($id);
 
         return response()->json([
             "original" => $toUpdate,
@@ -73,10 +74,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $toDelete = $this->service->displayOne($id);
+
         $this->service->deleteOne($id);
 
         return response()->json([
-            "id" => $id,
+            "to_delete" => $toDelete,
             "message" => "deletado"
         ]);
     }

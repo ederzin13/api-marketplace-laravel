@@ -3,44 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Resources\GenericResource;
+use App\Http\Service\CartItemService;
 use App\Http\Service\CartService;
 use App\Http\Service\OrderService;
-use App\Models\Cart;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     public function __construct(
         protected CartService $service, 
         protected OrderService $orderService,
+        protected CartItemService $cartItemService
         ) {}
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->json($this->service->getAll());
+        $carts = $this->service->getAll();
+
+        return GenericResource::collection($carts);
     }
 
     public function getMyCart() {
-        return response()->json($this->service->getMyCart());
+        $myCart = $this->service->getMyCart();
+
+        return new GenericResource($myCart);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-    
     public function newOrder(StoreOrderRequest $request) {
         try {
             $validatedData = $this->orderService->newOrder($request->validated());  
 
+            $items = $this->cartItemService->getItems();
+
             return response()->json([
                 "data" => $request->all(),
+                "items" => $items,
                 "message" => "created"
             ], 201);
         }
@@ -50,29 +50,5 @@ class CartController extends Controller
                 "message" => $error->getMessage()
             ]);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
     }
 }

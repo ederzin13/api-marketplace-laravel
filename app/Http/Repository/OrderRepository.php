@@ -10,7 +10,7 @@ class OrderRepository {
     }
 
     public function getMyOrders($id) {
-        return Order::where("userId", "=", $id)->get();
+        return Order::with("orderItems")->where("userId", "=", $id)->get();
     }
 
     public function getOne($id) {

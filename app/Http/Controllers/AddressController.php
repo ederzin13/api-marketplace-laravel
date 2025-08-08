@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
+use App\Http\Resources\GenericResource;
 use App\Http\Service\AddressService;
 use App\Models\Address;
 use Illuminate\Http\Request;
@@ -16,7 +17,9 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return response()->json($this->service->getAll());
+        $addresses = $this->service->getAll();
+
+        return new GenericResource($addresses);
     }
 
     /**
@@ -28,8 +31,8 @@ class AddressController extends Controller
 
         return response()->json([
             "message" => "Endereço cadastrado",
-            "data" => $validatedData
-        ], 201); //será que coloco os status em todos os métodos?
+            "data" => new GenericResource($request)
+        ], 201); 
     }
 
     /**
@@ -37,7 +40,9 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->service->getOne($id), 200);
+        $address = $this->service->getOne($id);
+
+        return new GenericResource($address);
     }
 
     /**
@@ -47,7 +52,14 @@ class AddressController extends Controller
     {
         $validatedData = $request->validated();
 
-        return response()->json($this->service->updateAddress($validatedData, $id), 200);
+        $toUpdate = $this->service->getOne($id);
+
+        $this->service->updateAddress($validatedData, $id);
+
+        return response()->json([
+            "original" => $toUpdate,
+            "updated" => new GenericResource($request)
+        ]);
     }
 
     /**
@@ -55,10 +67,11 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
+        $deletedAddress = $this->service->getOne($id);
+
         return response()->json([
-            "to_delete" => $this->show($id),
+            "to_delete" => $deletedAddress,
             "deleted" => $this->service->deleteAddress($id),
-            "message" => "success"
         ], 200);
     }
 }

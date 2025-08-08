@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Resources\GenericResource;
 use App\Http\Service\AuthService;
 use App\Http\Service\UserService;
 use Illuminate\Http\Request;
@@ -19,9 +20,9 @@ class AuthController extends Controller
         $token = $user->createToken("auth_token")->plainTextToken;
 
         return response()->json([
-            "message" => "deu certo",
+            "message" => "Usuário cadastrado",
             "token" => $token,
-            "data" => $user
+            "data" => new GenericResource($user)
         ], 201);
     }
 

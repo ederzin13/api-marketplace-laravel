@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\GenericResource;
 use App\Http\Service\CategoryService;
 use App\Models\Category;
 
@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         $categories = $this->service->getAll();
 
-        return new CategoryResource($categories);
+        return new GenericResource($categories);
     }
 
     /**
@@ -29,7 +29,7 @@ class CategoryController extends Controller
         $validatedData = $this->service->newCategory($request->validated());
 
         return response()->json([
-            "new_category" => new CategoryResource($validatedData),
+            "new_category" => new GenericResource($validatedData),
             "message" => "success"
         ]);
     }
@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $category = $this->service->getOne($id);
 
-        return new CategoryResource($category);
+        return new GenericResource($category);
     }
 
     /**

@@ -6,7 +6,7 @@ use App\Models\Product;
 
 class ProductRepository {
     public function getAll() {
-        return Product::all();
+        return Product::with("category")->get();
     }
 
     public function getOne($id) {

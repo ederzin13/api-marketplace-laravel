@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCouponRequest;
 use App\Http\Requests\UpdateCouponRequest;
+use App\Http\Resources\GenericResource;
 use App\Http\Service\CouponService;
 use App\Models\Coupon;
 
@@ -15,7 +16,9 @@ class CouponController extends Controller
      */
     public function index()
     {
-        return response()->json($this->service->getAll());
+        $coupons = $this->service->getAll();
+
+        return GenericResource::collection($coupons);
     }
 
     /**
@@ -23,10 +26,10 @@ class CouponController extends Controller
      */
     public function store(StoreCouponRequest $request)
     {
-        $validatedData = $this->service->createCoupon($request->validated());
+        $this->service->createCoupon($request->validated());
 
         return response()->json([
-            "new_coupon" => $validatedData,
+            "new_coupon" => new GenericResource($request),
             "message" => "success"
         ]);
     }
@@ -46,7 +49,7 @@ class CouponController extends Controller
     {
         $toUpdate = $this->service->getOne($id);
 
-        $validatedData = $this->service->updateCoupon($request->validated(), $id);
+        $this->service->updateCoupon($request->validated(), $id);
 
         return response()->json([
             "original" => $toUpdate,

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDiscountRequest;
 use App\Http\Requests\UpdateDiscountRequest;
+use App\Http\Resources\DiscountResource;
+use App\Http\Resources\GenericResource;
 use App\Http\Service\DiscountService;
 use App\Models\Discount;
 
@@ -15,7 +17,11 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        return response()->json($this->service->getAll());
+        $discounts = $this->service->getAll();
+
+        $discounts->load("product");
+
+        return DiscountResource::collection($discounts);
     }
 
     /**
@@ -23,10 +29,10 @@ class DiscountController extends Controller
      */
     public function store(StoreDiscountRequest $request)
     {
-        $validatedData = $this->service->newDiscount($request->validated());
+        $this->service->newDiscount($request->validated());
 
         return response()->json([
-            "new_discount" => $validatedData
+            "new_discount" => new GenericResource($request)
         ]);
     }
 
@@ -35,7 +41,11 @@ class DiscountController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->service->getOne($id));
+        $discount = $this->service->getOne($id);
+
+        $discount->load("product");
+
+        return new DiscountResource($discount);
     }
 
     /**
@@ -43,13 +53,15 @@ class DiscountController extends Controller
      */
     public function update(UpdateDiscountRequest $request, $id)
     {
-        $toUpdate = $this->show($id);
+        $toUpdate = $this->service->getOne($id);
 
-        $validatedData = $this->service->updateDiscount($request->validated(), $id);
+        $this->service->updateDiscount($request->validated(), $id);
+
+        $updated = $this->service->getOne($id);
 
         return response()->json([
             "original" => $toUpdate,
-            "updated" => $request->all()
+            "updated" => $updated
         ]);
     }
 
@@ -58,7 +70,7 @@ class DiscountController extends Controller
      */
     public function destroy($id)
     {
-        $toDelete = $this->show($id);
+        $toDelete = $this->service->getOne($id);
 
         return response()->json([
             "to_delete" => $toDelete,

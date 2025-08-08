@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
+use App\Http\Resources\GenericResource;
 use App\Http\Service\CartItemService;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
@@ -17,7 +18,9 @@ class CartItemController extends Controller
      */
     public function index()
     {
-        return $this->service->getItems();
+        $items = $this->service->getItems();
+
+        return GenericResource::collection($items);
     }
 
     /**
@@ -47,7 +50,7 @@ class CartItemController extends Controller
     {
         $original = $this->show($id);
 
-        $validatedData = $this->service->updateItem($request->validated(), $id);
+        $this->service->updateItem($request->validated(), $id);
 
         return response()->json([
             "to_update" => $original,
@@ -70,7 +73,7 @@ class CartItemController extends Controller
 
     public function clear() {
         return response()->json([
-            "deu certo" => $this->service->clear()
+            "Carrinho limpo" => $this->service->clear()
         ]);
     }
 }

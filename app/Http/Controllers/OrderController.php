@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
 use App\Http\Service\OrderService;
 use App\Models\Order;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -18,13 +19,17 @@ class OrderController extends Controller
      */
 
     public function getAll() {
-        return response()->json($this->service->getAll());
+        $orders = $this->service->getAll();
+
+        return OrderResource::collection($orders);
     }
 
     //retorna só as rotas do usuário
     public function index()
     {
-        return response()->json($this->service->getMyOrders());
+        $myOrders = $this->service->getMyOrders();
+
+        return OrderResource::collection($myOrders);
     }
 
     /**
@@ -40,7 +45,11 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return $this->service->getOne($id);
+        $order = $this->service->getOne($id);
+
+        $order->load("orderItems");
+
+        return new OrderResource($order);
     }
 
     /**
@@ -64,7 +73,14 @@ class OrderController extends Controller
     public function destroy($id)
     {
         try {
-            return response()->json($this->service->cancelOrder($id));
+            $deletedOrder = $this->show($id);
+
+            $this->service->cancelOrder($id);
+
+            return response()->json([
+                "message" => "deleted",
+                "deleted_order" => $deletedOrder
+            ]);
         }
 
         catch (AuthorizationException $error) {
