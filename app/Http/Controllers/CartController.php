@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Resources\CartResource;
 use App\Http\Resources\GenericResource;
 use App\Http\Service\CartItemService;
 use App\Http\Service\CartService;
@@ -29,7 +30,9 @@ class CartController extends Controller
     public function getMyCart() {
         $myCart = $this->service->getMyCart();
 
-        return new GenericResource($myCart);
+        $myCart->load("cartItems");
+        
+        return new CartResource($myCart);
     }
 
     public function newOrder(StoreOrderRequest $request) {

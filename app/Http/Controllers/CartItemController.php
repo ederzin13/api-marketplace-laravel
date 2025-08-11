@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateCartItemRequest;
+use App\Http\Resources\CartItemResource;
 use App\Http\Resources\GenericResource;
 use App\Http\Service\CartItemService;
 use App\Models\CartItem;
@@ -20,7 +21,7 @@ class CartItemController extends Controller
     {
         $items = $this->service->getItems();
 
-        return GenericResource::collection($items);
+        return CartItemResource::collection($items);
     }
 
     /**
@@ -28,7 +29,7 @@ class CartItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        $validatedData = $this->service->addItem($request->validated());
+        $this->service->addItem($request->validated());
 
         return response()->json([
             "added_item" => $request->all()

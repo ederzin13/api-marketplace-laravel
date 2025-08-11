@@ -20,10 +20,12 @@ class CartItemService {
     }
 
     public function addItem(array $data) {
+        $user = Auth::user();
+
         $product = Product::find($data["productId"]);
 
         $item = $this->repository->addItem([
-            "cartId" => $data["cartId"],
+            "cartId" => $user->id,
             "productId" => $data["productId"],
             "quantity" => $data["quantity"],
             "unitPrice" => $product->price
