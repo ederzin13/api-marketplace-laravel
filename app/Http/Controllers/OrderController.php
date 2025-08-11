@@ -8,8 +8,6 @@ use App\Models\Order;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
-//PRECISO DESSE CONTROLADOR???
-
 class OrderController extends Controller
 {
     public function __construct(protected OrderService $service) {}

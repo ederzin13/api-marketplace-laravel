@@ -7,7 +7,6 @@ use App\Http\Repository\CouponRepository;
 use App\Http\Repository\OrderItemRepository;
 use App\Http\Repository\OrderRepository;
 use App\Models\Address;
-use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Coupon;
 use App\Models\Order;
@@ -117,7 +116,7 @@ class OrderService {
         return $this->repository->updateStatus($status, $id);
     }
 
-    public function totalAmount($items, $couponDiscount) {//ajeitar essa continha aqui 
+    public function totalAmount($items, $couponDiscount) {
         $total = 0;
 
         foreach ($items as $item) {
